@@ -103,26 +103,31 @@ function initChildren(fiber, children) {
   });
 }
 
+function updateFunctionComponent(fiber) {
+  const children = [fiber.type(fiber.props)];
+
+  initChildren(fiber, children);
+}
+
+function updateHostComponent(fiber) {
+  const children = fiber.props.children;
+
+  if (!fiber.dom) {
+    const dom = (fiber.dom = createDom(fiber.type));
+    updateProps(dom, fiber.props);
+  }
+
+  initChildren(fiber, children);
+}
+
 function performWorkOfUnit(fiber) {
   const isFunctionComponent = typeof fiber.type === "function";
 
-  if (!isFunctionComponent) {
-    if (!fiber.dom) {
-      const dom = (fiber.dom = createDom(fiber.type));
-      // fiber.parent.dom.append(dom);
-      updateProps(dom, fiber.props);
-    }
-  }
-
-  const children = isFunctionComponent
-    ? [fiber.type(fiber.props)]
-    : fiber.props.children;
-
   if (isFunctionComponent) {
-    console.log("[  s ]", children);
+    updateFunctionComponent(fiber);
+  } else {
+    updateHostComponent(fiber);
   }
-  console.log("[ children ]", children);
-  initChildren(fiber, children);
 
   if (fiber.child) {
     return fiber.child;
