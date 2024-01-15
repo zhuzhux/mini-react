@@ -4,7 +4,6 @@ const createElement = (type, props, ...children) => {
     props: {
       ...props,
       children: children.map((child) => {
-        console.log("[ child ]", child);
         return typeof child === "string" ? createTextNode(child) : child;
       }),
     },
@@ -28,8 +27,10 @@ function render(el, container) {
       children: [el],
     },
   };
+  root = nextWorkOfUnit;
 }
 
+let root = null;
 let nextWorkOfUnit = null;
 function workLoop(deadline) {
   let shouldYield = false;
@@ -37,7 +38,24 @@ function workLoop(deadline) {
     nextWorkOfUnit = performWorkOfUnit(nextWorkOfUnit);
     shouldYield = deadline.timeRemaining() < 1;
   }
+
+  if (!nextWorkOfUnit && root) {
+    commitRoot();
+  }
   requestIdleCallback(workLoop);
+}
+
+function commitRoot() {
+  commitWork(root.child);
+  root = null;
+  console.log("[ root ]", root);
+}
+
+function commitWork(fiber) {
+  if (!fiber) return;
+  fiber.parent.dom.append(fiber.dom);
+  commitWork(fiber.child);
+  commitWork(fiber.sibling);
 }
 
 function createDom(type) {
@@ -79,7 +97,7 @@ function initChildren(fiber) {
 function performWorkOfUnit(fiber) {
   if (!fiber.dom) {
     const dom = (fiber.dom = createDom(fiber.type));
-    fiber.parent.dom.append(dom);
+    // fiber.parent.dom.append(dom);
     updateProps(dom, fiber.props);
   }
   initChildren(fiber);
