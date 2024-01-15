@@ -1,11 +1,17 @@
 import React from "./core/React.js";
 
-// const App = React.createElement("div", { id: "app" }, "hello world");
+const Counter = ({ num }) => {
+  return <div>counter: {num}</div>;
+};
 
-const App = (
-  <div id="app" className="m1">
-    hello world
-  </div>
-);
+const App = () => {
+  return (
+    <div id="app" className="m1">
+      hello world
+      <Counter num={123}></Counter>
+      <Counter num={456}></Counter>
+    </div>
+  );
+};
 
 export default App;
