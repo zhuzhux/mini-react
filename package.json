@@ -1,8 +1,13 @@
 {
+  "name": "@lilxiong/mini-react",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
+    "dev": "pnpm --filter playground dev",
+    "build": "vite build",
     "test": "vitest"
   },
-	"dependencies": {
-		"vitest": "^1.2.0"
-	}
+  "devDependencies": {
+    "vitest": "^1.2.0"
+  }
 }

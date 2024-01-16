@@ -50,7 +50,6 @@ function workLoop(deadline) {
 function commitRoot() {
   commitWork(root.child);
   root = null;
-  console.log("[ root ]", root);
 }
 
 function commitWork(fiber) {
