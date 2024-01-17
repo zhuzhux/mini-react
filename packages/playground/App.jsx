@@ -10,6 +10,13 @@ const App = () => {
       hello world
       <Counter num={123}></Counter>
       <Counter num={456}></Counter>
+      <button
+        onClick={(e) => {
+          console.log("[ 点击 ]", e);
+        }}
+      >
+        按钮
+      </button>
     </div>
   );
 };
