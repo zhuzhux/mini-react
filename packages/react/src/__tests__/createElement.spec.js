@@ -1,5 +1,5 @@
 import { it, expect, describe } from "vitest";
-import React from "../core/React.js";
+import React from "../index.js";
 
 describe("createElement", () => {
   it("props is null", () => {

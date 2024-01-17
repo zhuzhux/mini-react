@@ -1,5 +1,5 @@
 {
-  "name": "vite-runner",
+  "name": "playground",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,6 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "mini-react":"workspace: *",
+    "mini-react-dom":"workspace: *"
   },
   "devDependencies": {
     "vite": "^5.0.8"

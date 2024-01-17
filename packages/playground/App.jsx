@@ -1,4 +1,4 @@
-import React from "./core/React.js";
+import React from "mini-react";
 
 const Counter = ({ num }) => {
   return <div>counter: {num}</div>;
