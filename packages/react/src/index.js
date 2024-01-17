@@ -23,17 +23,16 @@ function createTextNode(text) {
 }
 
 function render(el, container) {
-  nextWorkOfUnit = {
+  wipRoot = {
     dom: container,
     props: {
       children: [el],
     },
   };
-
-  root = nextWorkOfUnit;
+  nextWorkOfUnit = wipRoot;
 }
 
-let root = null;
+let wipRoot = null;
 let currentRoot = null;
 let nextWorkOfUnit = null;
 function workLoop(deadline) {
@@ -44,7 +43,7 @@ function workLoop(deadline) {
     shouldYield = deadline.timeRemaining() < 1;
   }
 
-  if (!nextWorkOfUnit && root) {
+  if (!nextWorkOfUnit && wipRoot) {
     commitRoot();
   }
 
@@ -52,9 +51,9 @@ function workLoop(deadline) {
 }
 
 function commitRoot() {
-  commitWork(root.child);
-  currentRoot = root;
-  root = null;
+  commitWork(wipRoot.child);
+  currentRoot = wipRoot;
+  wipRoot = null;
 }
 
 function commitWork(fiber) {
@@ -116,7 +115,7 @@ function updateProps(dom, nextProps, prevProps) {
   });
 }
 
-function initChildren(fiber, children) {
+function reconcileChildren(fiber, children) {
   let oldFiber = fiber.alternate?.child;
   let prevChild = null;
   children.forEach((child, index) => {
@@ -162,7 +161,7 @@ function initChildren(fiber, children) {
 function updateFunctionComponent(fiber) {
   const children = [fiber.type(fiber.props)];
 
-  initChildren(fiber, children);
+  reconcileChildren(fiber, children);
 }
 
 function updateHostComponent(fiber) {
@@ -173,7 +172,7 @@ function updateHostComponent(fiber) {
     updateProps(dom, fiber.props, {});
   }
 
-  initChildren(fiber, children);
+  reconcileChildren(fiber, children);
 }
 
 function performWorkOfUnit(fiber) {
@@ -199,12 +198,12 @@ function performWorkOfUnit(fiber) {
 }
 
 function update() {
-  nextWorkOfUnit = {
+  wipRoot = {
     dom: currentRoot.dom,
     props: currentRoot.props,
     alternate: currentRoot,
   };
-  root = nextWorkOfUnit;
+  nextWorkOfUnit = wipRoot;
 }
 
 requestIdleCallback(workLoop);
