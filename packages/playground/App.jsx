@@ -20,7 +20,7 @@ const Counter = () => {
   return (
     <div>
       counter:
-      <div>{showBar ? bar : foo}</div>
+      {showBar && bar}
       <button onClick={handleShowBar}>按钮</button>
     </div>
   );
