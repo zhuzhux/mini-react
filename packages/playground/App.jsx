@@ -2,11 +2,16 @@ import React from "mini-react";
 
 let showBar = false;
 const Counter = () => {
-  // const foo = <div>foo</div>;
-  const Foo = () => {
-    return <div>foo</div>;
-  };
-  const bar = <p>bar</p>;
+  const foo = (
+    <div>
+      foo
+      <div>child1</div>
+      <div>child2</div>
+      <div>child3</div>
+    </div>
+  );
+
+  const bar = <div>bar</div>;
   const handleShowBar = () => {
     showBar = !showBar;
     React.update();
@@ -15,7 +20,7 @@ const Counter = () => {
   return (
     <div>
       counter:
-      <div>{showBar ? bar : <Foo></Foo>}</div>
+      <div>{showBar ? bar : foo}</div>
       <button onClick={handleShowBar}>按钮</button>
     </div>
   );
