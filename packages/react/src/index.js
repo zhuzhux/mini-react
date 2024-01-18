@@ -35,6 +35,7 @@ function render(el, container) {
 let wipRoot = null;
 let currentRoot = null;
 let nextWorkOfUnit = null;
+let deletion = [];
 function workLoop(deadline) {
   let shouldYield = false;
   while (!shouldYield && nextWorkOfUnit) {
@@ -51,9 +52,23 @@ function workLoop(deadline) {
 }
 
 function commitRoot() {
+  deletion.forEach(commitDeletion);
   commitWork(wipRoot.child);
   currentRoot = wipRoot;
   wipRoot = null;
+  deletion = [];
+}
+
+function commitDeletion(fiber) {
+  if (fiber.dom) {
+    let fiberParent = fiber.parent;
+    while (!fiberParent.dom) {
+      fiberParent = fiberParent.parent;
+    }
+    fiberParent.dom.removeChild(fiber.dom);
+  } else {
+    commitDeletion(fiber.child);
+  }
 }
 
 function commitWork(fiber) {
@@ -143,6 +158,9 @@ function reconcileChildren(fiber, children) {
         dom: null,
         effectTag: "placement",
       };
+      if (oldFiber) {
+        deletion.push(oldFiber);
+      }
     }
 
     if (oldFiber) {
