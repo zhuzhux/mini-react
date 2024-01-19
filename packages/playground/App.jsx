@@ -8,15 +8,15 @@ function Foo() {
       return prev + 1;
     });
     setBar((prev) => {
-      return "s" + prev;
+      return "bar" + prev;
     });
   }
 
   return (
     <div>
-      count: {count}
+      <div>count: {count}</div>
+      <div>bar : {bar}</div>
       <button onClick={handleClick}>按钮</button>
-      bar : {bar}
     </div>
   );
 }
