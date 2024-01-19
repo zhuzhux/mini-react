@@ -1,15 +1,14 @@
 import React from "mini-react";
 
 function Foo() {
+  console.log("[ re foo ]");
   const [count, setCount] = React.useState(10);
   const [bar, setBar] = React.useState("bar");
   function handleClick() {
     setCount((prev) => {
       return prev + 1;
     });
-    setBar((prev) => {
-      return "bar" + prev;
-    });
+    setBar((bar) => bar);
   }
 
   return (
