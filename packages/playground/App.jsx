@@ -1,53 +1,31 @@
 import React from "mini-react";
 
-let countFoo = 1;
 function Foo() {
-  console.log("[ foo rerun ]");
-  const update = React.update();
+  const [count, setCount] = React.useState(10);
+  const [bar, setBar] = React.useState("bar");
   function handleClick() {
-    countFoo++;
-    update();
+    setCount((prev) => {
+      return prev + 1;
+    });
+    setBar((prev) => {
+      return "s" + prev;
+    });
   }
 
   return (
     <div>
-      foo count: {countFoo}
+      count: {count}
       <button onClick={handleClick}>按钮</button>
+      bar : {bar}
     </div>
   );
 }
 
-let countBar = 1;
-function Bar() {
-  console.log("[ bar rerun ]");
-  const update = React.update();
-  function handleClick() {
-    countBar++;
-    update();
-  }
-
-  return (
-    <div>
-      bar count: {countBar}
-      <button onClick={handleClick}>按钮</button>
-    </div>
-  );
-}
-
-let countRoot = 1;
 const App = () => {
-  console.log("[ app rerun ]");
-  const update = React.update();
-  function handleClick() {
-    countRoot++;
-    update();
-  }
   return (
     <div id="app" className="m1">
-      hi mini-react count: {countRoot}
-      <button onClick={handleClick}>按钮</button>
+      hi mini-react
       <Foo></Foo>
-      <Bar></Bar>
     </div>
   );
 };
