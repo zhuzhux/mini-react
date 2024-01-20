@@ -4,12 +4,21 @@ function Foo() {
   console.log("[ re foo ]");
   const [count, setCount] = React.useState(10);
   const [bar, setBar] = React.useState("bar");
+
   function handleClick() {
     setCount((prev) => {
       return prev + 1;
     });
     setBar((bar) => bar);
   }
+
+  React.useEffect(() => {
+    console.log("init");
+  }, [count]);
+
+  React.useEffect(() => {
+    console.log("update", count);
+  }, [count]);
 
   return (
     <div>
